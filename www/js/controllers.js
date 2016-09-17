@@ -31,9 +31,10 @@ angular.module('starter.controllers', [])
     '$scope',
     '$cordovaBarcodeScanner',
     '$cordovaDialogs',
+    '$cordovaPreferences',
     'Config',
     '$log',
-    function($scope, $cordovaBarcodeScanner, $cordovaDialogs, Config, $log) {
+    function($scope, $cordovaBarcodeScanner, $cordovaDialogs, $cordovaPreferences, Config, $log) {
       $scope.scan = function scan() {
         $cordovaBarcodeScanner
           .scan()
@@ -43,7 +44,10 @@ angular.module('starter.controllers', [])
             //Config.store('barcodedata', barcodeData);
             $cordovaDialogs.alert('Success', 'scan: ' + barcodeData.toString(), 'OK')
               .then(function() {
-                $cordovaPreferences.store('barcodedata', barcodeData)
+                Raven.setExtraContext(barcodeData);
+                Myraven.info('scan success: ' + value.toString());
+                Raven.clearContext();
+                $cordovaPreferences.store('barcodedata', barcodeData.text)
                   .success(function(value) {
                     $log.debug("store success: ", value);
                     $cordovaDialogs.alert('Success', 'store: ' + value.toString(), 'OK');
