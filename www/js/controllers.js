@@ -30,14 +30,16 @@ angular.module('starter.controllers', [])
   .controller('BarcodeconfigCtrl', [
     '$scope',
     '$cordovaBarcodeScanner',
+    'Config',
     '$log',
-    function($scope, $cordovaBarcodeScanner, $log) {
+    function($scope, $cordovaBarcodeScanner, Config, $log) {
       $scope.scan = function scan() {
         $cordovaBarcodeScanner
           .scan()
           .then(function(barcodeData) {
             // Success! Barcode data is here
             $log.debug(barcodeData);
+            Config.store('barcodedata', barcodeData);
           }, function(error) {
             // An error occurred
             $log.error(error);
