@@ -32,9 +32,10 @@ angular.module('starter.controllers', [])
     '$cordovaBarcodeScanner',
     '$cordovaDialogs',
     '$cordovaPreferences',
+    'Myraven',
     'Config',
     '$log',
-    function($scope, $cordovaBarcodeScanner, $cordovaDialogs, $cordovaPreferences, Config, $log) {
+    function($scope, $cordovaBarcodeScanner, $cordovaDialogs, $cordovaPreferences, Myraven, Config, $log) {
       $scope.scan = function scan() {
         $cordovaBarcodeScanner
           .scan()
@@ -45,7 +46,7 @@ angular.module('starter.controllers', [])
             $cordovaDialogs.alert('Success', 'scan: ' + barcodeData.toString(), 'OK')
               .then(function() {
                 Raven.setExtraContext(barcodeData);
-                Myraven.info('scan success: ' + value.toString());
+                Myraven.info('scan success');
                 Raven.clearContext();
                 $cordovaPreferences.store('barcodedata', barcodeData.text)
                   .success(function(value) {
@@ -64,5 +65,19 @@ angular.module('starter.controllers', [])
             $cordovaDialogs.alert('Error', 'scan: ' + error.toString(), 'OK');
             $log.error(error);
           });
+      };
+
+      $scope.test = function test() {
+        Myraven.info('test');
+      };
+
+      $scope.showPref = function showPref() {
+        $cordovaPreferences.show()
+          .success(function(value) {
+            $cordovaDialogs.alert("Success: " + value);
+          })
+          .error(function(error) {
+            $cordovaDialogs.alert("Error: " + error);
+          })
       };
     }]);
