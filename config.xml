@@ -9,7 +9,7 @@
     </author>
   <content src="index.html"/>
   <access origin="*"/>
-  <platform name="ios"></platform>
+  <platform name="ios"/>
   <preference name="webviewbounce" value="false"/>
   <preference name="UIWebViewBounce" value="false"/>
   <preference name="DisallowOverscroll" value="true"/>
@@ -26,5 +26,6 @@
   <plugin name="cordova-plugin-splashscreen" spec="~4.0.0"/>
   <plugin name="cordova-plugin-statusbar" spec="~2.2.0"/>
   <plugin name="ionic-plugin-keyboard" spec="~2.2.1"/>
-  <plugin name="phonegap-plugin-barcodescanner" spec="6.0.1" />
+  <plugin name="phonegap-plugin-barcodescanner" spec="6.0.1"/>
+  <plugin name="cordova-plugin-app-preferences" spec="0.99.2"/>
 </widget>
