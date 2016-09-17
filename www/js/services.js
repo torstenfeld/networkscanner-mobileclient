@@ -1,8 +1,27 @@
 angular.module('starter.services', [])
 
+  .factory('Myraven', [function() {
+    var methods;
+
+    methods = {
+      info: function info(string) {
+        Raven.captureMessage(string, {level: 'info'});
+      },
+      warn: function warn(string) {
+        Raven.captureMessage(string, {level: 'warn'});
+      },
+      error: function error(string) {
+        Raven.captureMessage(string, {level: 'error'});
+      }
+    };
+
+    return methods;
+  }])
+
   .factory('Config', [
     '$log',
     '$q',
+    'Myraven',
     '$cordovaPreferences',
     function($log, $q, $cordovaPreferences) {
       var methods;
@@ -13,10 +32,12 @@ angular.module('starter.services', [])
           $cordovaPreferences.store(key, value)
             .success(function(value) {
               $log.debug("store success: ", value);
+              Myraven.info('store success: ' + value.toString());
               defer.resolve(value);
             })
             .error(function(error) {
               $log.debug("store error: ", error);
+              Myraven.info('store error: ' + error.toString());
               defer.reject(error);
             });
           return defer.promise;
@@ -29,10 +50,12 @@ angular.module('starter.services', [])
           $cordovaPreferences.show()
             .success(function(value) {
               $log.debug("show success: ", value);
+              Myraven.info('show success: ' + value.toString());
               defer.resolve(value);
             })
             .error(function(error) {
               $log.debug("show error: ", error);
+              Myraven.info('show error: ' + error.toString());
               defer.reject(error);
             });
           return defer.promise;
