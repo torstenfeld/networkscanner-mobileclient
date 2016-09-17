@@ -48,7 +48,8 @@ angular.module('starter.controllers', [])
                 Raven.setExtraContext(barcodeData);
                 Myraven.info('scan success');
                 Raven.clearContext();
-                $cordovaPreferences.store('barcodedata', barcodeData.text)
+                $cordovaPreferences.store('barcodedata', 1231412)
+                //$cordovaPreferences.store('barcodedata', barcodeData.text)
                   .success(function(value) {
                     $log.debug("store success: ", value);
                     $cordovaDialogs.alert('Success', 'store: ' + value.toString(), 'OK');
