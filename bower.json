@@ -6,6 +6,6 @@
   },
   "dependencies": {
     "ngCordova": "^0.1.27-alpha",
-    "angular-raven": "^0.6.2"
+    "raven-js": "~1"
   }
 }
