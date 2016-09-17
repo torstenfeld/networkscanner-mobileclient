@@ -30,18 +30,34 @@ angular.module('starter.controllers', [])
   .controller('BarcodeconfigCtrl', [
     '$scope',
     '$cordovaBarcodeScanner',
+    '$cordovaDialogs',
     'Config',
     '$log',
-    function($scope, $cordovaBarcodeScanner, Config, $log) {
+    function($scope, $cordovaBarcodeScanner, $cordovaDialogs, Config, $log) {
       $scope.scan = function scan() {
         $cordovaBarcodeScanner
           .scan()
           .then(function(barcodeData) {
             // Success! Barcode data is here
             $log.debug(barcodeData);
-            Config.store('barcodedata', barcodeData);
+            //Config.store('barcodedata', barcodeData);
+            $cordovaDialogs.alert('Success', 'scan: ' + barcodeData.toString(), 'OK')
+              .then(function() {
+                $cordovaPreferences.store('barcodedata', barcodeData)
+                  .success(function(value) {
+                    $log.debug("store success: ", value);
+                    $cordovaDialogs.alert('Success', 'store: ' + value.toString(), 'OK');
+                    Myraven.info('store success: ' + value.toString());
+                  })
+                  .error(function(error) {
+                    $log.debug("store error: ", error);
+                    Myraven.info('store error: ' + error.toString());
+                    $cordovaDialogs.alert('Error', 'store: ' + error.toString(), 'OK');
+                  });
+              });
           }, function(error) {
             // An error occurred
+            $cordovaDialogs.alert('Error', 'scan: ' + error.toString(), 'OK');
             $log.error(error);
           });
       };
